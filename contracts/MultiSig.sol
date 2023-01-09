@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
+/** @title A sample Multisig Contract
+ * @author Reda Aboutika
+ * @notice This contract is for creating a MultiSig wallet
+ */
 contract MultiSig {
     address[] public owners;
     uint256 public required;
@@ -27,8 +31,6 @@ contract MultiSig {
     receive() external payable {}
 
     function executeTransaction(uint _transactionId) internal {
-        //address receiver = transactions[_transactionId].destination;
-        //uint256 amount = transactions[_transactionId].value;
         Transaction storage _tx = transactions[_transactionId];
         require(isConfirmed(_transactionId));
         (bool success, ) = _tx.destination.call{value: _tx.value}(_tx.data);
